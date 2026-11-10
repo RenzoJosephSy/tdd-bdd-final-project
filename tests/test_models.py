@@ -150,7 +150,6 @@ class TestProductModel(unittest.TestCase):
             product.create()
         self.assertEqual(len(Product.all()),5)
     
-    def test_find_product(self):
-        pass
+
 
      
