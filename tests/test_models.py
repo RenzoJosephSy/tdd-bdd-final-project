@@ -104,3 +104,53 @@ class TestProductModel(unittest.TestCase):
     #
     # ADD YOUR TEST CASES HERE
     #
+    def test_read_product(self):
+        """It should read the newly created product"""
+        product = ProductFactory()
+        product.id = None
+        product.create()
+        self.assertIsNotNone(product.id)
+        found_product = Product.find(product.id)
+        self.assertEqual(found_product.id,product.id)
+        self.assertEqual(found_product.name,product.name)
+        self.assertEqual(found_product.description,product.description)
+        self.assertEqual(found_product.price,product.price) 
+     
+    def test_update_product(self):
+        """It should update the newly created product"""
+        product = ProductFactory()
+        product.id = None
+        product.create()
+        self.assertIsNotNone(product.id)
+        product.description = "testing"
+        original_id = product.id
+        product.update()
+        found_product = Product.find(product.id)
+        self.assertEqual(found_product.id,original_id)
+        self.assertEqual(found_product.description,"testing")
+        products = Product.all()
+        self.assertEqual(len(products), 1)
+        self.assertEqual(products[0].id, original_id)
+        self.assertEqual(products[0].description, "testing")
+    
+    def test_delete_product(self):
+        """It should delete a product"""
+        product = ProductFactory()
+        product.create()
+        self.assertEqual(len(Product.all()), 1)
+        product.delete()
+        self.assertEqual(len(Product.all()), 0)
+
+    def test_list_product(self):
+        """It should list the product"""
+        products = Product.all()
+        self.assertEqual(products, [])
+        for _ in range(5):
+            product = ProductFactory()
+            product.create()
+        self.assertEqual(len(Product.all()),5)
+    
+    def test_find_product(self):
+        pass
+
+     
